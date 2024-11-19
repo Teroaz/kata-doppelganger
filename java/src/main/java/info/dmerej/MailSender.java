@@ -13,8 +13,7 @@ public class MailSender {
 
     public void sendV1(User user, String message) {
         String email = user.email();
-        // Bug! Should be SenMailRequest(email, "New notification", message)
-        SendMailRequest request = new SendMailRequest("New notification", email, message);
+        SendMailRequest request = new SendMailRequest(email, "New notification", message);
         httpClient.post(baseUrl, request);
     }
 
@@ -23,8 +22,7 @@ public class MailSender {
         SendMailRequest request = new SendMailRequest(email, "New notification", message);
         SendMailResponse sendMailResponse = httpClient.post(baseUrl, request);
         if (sendMailResponse.code() == 503) {
-            // <- Bug! Should be httpClient.post(baseUrl, request)
-            httpClient.post(baseUrl, sendMailResponse);
+            httpClient.post(baseUrl, request);
         }
     }
 }
